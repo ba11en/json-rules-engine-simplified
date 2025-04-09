@@ -1,13 +1,13 @@
-import selectn from "selectn";
+import selectn from 'selectn';
 
-test("selectn on array", function() {
-  let a = {
+test('selectn on array', function () {
+  const a = {
     medications: {
-      type: "A",
+      type: 'A',
     },
   };
 
-  expect(selectn("medications.type", a)).toEqual("A");
+  expect(selectn('medications.type', a)).toEqual('A');
 
   // let obj = {
   //   medications: [
@@ -16,5 +16,5 @@ test("selectn on array", function() {
   //     { type: "C" }
   //   ]
   // };
-  //expect(selectn("medications.type", obj)).toEqual(["A", "B", "C"]);
+  // expect(selectn("medications.type", obj)).toEqual(["A", "B", "C"]);
 });

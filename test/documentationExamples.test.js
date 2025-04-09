@@ -1,97 +1,97 @@
-import Engine from "../src/Engine";
+import Engine from '../src/Engine';
 
-let EVENT = {
-  type: "remove",
+const EVENT = {
+  type: 'remove',
   params: {
-    field: "password",
+    field: 'password',
   },
 };
 
-let schema = {
+const schema = {
   definitions: {
     hobby: {
-      type: "object",
+      type: 'object',
       properties: {
-        name: { type: "string" },
-        durationInMonth: { type: "integer" },
+        name: { type: 'string' },
+        durationInMonth: { type: 'integer' },
       },
     },
   },
-  title: "A registration form",
-  description: "A simple form example.",
-  type: "object",
-  required: ["firstName", "lastName"],
+  title: 'A registration form',
+  description: 'A simple form example.',
+  type: 'object',
+  required: ['firstName', 'lastName'],
   properties: {
     firstName: {
-      type: "string",
-      title: "First name",
+      type: 'string',
+      title: 'First name',
     },
     lastName: {
-      type: "string",
-      title: "Last name",
+      type: 'string',
+      title: 'Last name',
     },
     age: {
-      type: "integer",
-      title: "Age",
+      type: 'integer',
+      title: 'Age',
     },
     bio: {
-      type: "string",
-      title: "Bio",
+      type: 'string',
+      title: 'Bio',
     },
     country: {
-      type: "string",
-      title: "Country",
+      type: 'string',
+      title: 'Country',
     },
     state: {
-      type: "string",
-      title: "State",
+      type: 'string',
+      title: 'State',
     },
     zip: {
-      type: "string",
-      title: "ZIP",
+      type: 'string',
+      title: 'ZIP',
     },
     password: {
-      type: "string",
-      title: "Password",
+      type: 'string',
+      title: 'Password',
       minLength: 3,
     },
     telephone: {
-      type: "string",
-      title: "Telephone",
+      type: 'string',
+      title: 'Telephone',
       minLength: 10,
     },
-    work: { $ref: "#/definitions/hobby" },
+    work: { $ref: '#/definitions/hobby' },
     hobbies: {
-      type: "array",
-      items: { $ref: "#/definitions/hobby" },
+      type: 'array',
+      items: { $ref: '#/definitions/hobby' },
     },
   },
 };
 
-test("first example", () => {
-  let rules = [
+test('first example', () => {
+  const rules = [
     {
       conditions: {
-        firstName: "empty",
+        firstName: 'empty',
       },
       event: EVENT,
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(5);
 
   return Promise.all([
     engine.run({}).then(res => expect(res).toEqual([EVENT])),
     engine.run({ firstName: null }).then(res => expect(res).toEqual([EVENT])),
-    engine.run({ firstName: "" }).then(res => expect(res).toEqual([EVENT])),
-    engine.run({ firstName: "  " }).then(res => expect(res).toEqual([])),
-    engine.run({ firstName: "some" }).then(res => expect(res).toEqual([])),
+    engine.run({ firstName: '' }).then(res => expect(res).toEqual([EVENT])),
+    engine.run({ firstName: '  ' }).then(res => expect(res).toEqual([])),
+    engine.run({ firstName: 'some' }).then(res => expect(res).toEqual([])),
   ]);
 });
 
-test("Conditionals with arguments", () => {
-  let rules = [
+test('Conditionals with arguments', () => {
+  const rules = [
     {
       conditions: {
         age: { less: 16 },
@@ -100,7 +100,7 @@ test("Conditionals with arguments", () => {
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(5);
 
   return Promise.all([
@@ -112,8 +112,8 @@ test("Conditionals with arguments", () => {
   ]);
 });
 
-test("AND", () => {
-  let rules = [
+test('AND', () => {
+  const rules = [
     {
       conditions: {
         age: {
@@ -125,7 +125,7 @@ test("AND", () => {
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(4);
 
   return Promise.all([
@@ -136,8 +136,8 @@ test("AND", () => {
   ]);
 });
 
-test("NOT", () => {
-  let rules = [
+test('NOT', () => {
+  const rules = [
     {
       conditions: {
         age: {
@@ -151,7 +151,7 @@ test("NOT", () => {
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(4);
 
   return Promise.all([
@@ -162,8 +162,8 @@ test("NOT", () => {
   ]);
 });
 
-test("OR", () => {
-  let rules = [
+test('OR', () => {
+  const rules = [
     {
       conditions: {
         age: {
@@ -174,7 +174,7 @@ test("OR", () => {
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(4);
 
   return Promise.all([
@@ -185,50 +185,50 @@ test("OR", () => {
   ]);
 });
 
-test("multi field default AND", () => {
-  let rules = [
+test('multi field default AND', () => {
+  const rules = [
     {
       conditions: {
         age: { less: 70 },
-        country: { is: "USA" },
+        country: { is: 'USA' },
       },
       event: EVENT,
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(5);
 
   return Promise.all([
     engine
-      .run({ age: 16, country: "China" })
+      .run({ age: 16, country: 'China' })
       .then(res => expect(res).toEqual([])),
     engine
-      .run({ age: 16, country: "Mexico" })
+      .run({ age: 16, country: 'Mexico' })
       .then(res => expect(res).toEqual([])),
     engine
-      .run({ age: 16, country: "USA" })
+      .run({ age: 16, country: 'USA' })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ age: 69, country: "USA" })
+      .run({ age: 69, country: 'USA' })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ age: 70, country: "USA" })
+      .run({ age: 70, country: 'USA' })
       .then(res => expect(res).toEqual([])),
   ]);
 });
 
-test("multi field OR", () => {
-  let rules = [
+test('multi field OR', () => {
+  const rules = [
     {
       conditions: {
         or: [
           {
             age: { less: 70 },
-            country: { is: "USA" },
+            country: { is: 'USA' },
           },
           {
-            state: { is: "NY" },
+            state: { is: 'NY' },
           },
         ],
       },
@@ -236,40 +236,40 @@ test("multi field OR", () => {
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(5);
 
   return Promise.all([
     engine
-      .run({ age: 16, country: "China", state: "Beijing" })
+      .run({ age: 16, country: 'China', state: 'Beijing' })
       .then(res => expect(res).toEqual([])),
     engine
-      .run({ age: 16, country: "China", state: "NY" })
+      .run({ age: 16, country: 'China', state: 'NY' })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ age: 16, country: "USA" })
+      .run({ age: 16, country: 'USA' })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ age: 80, state: "NY" })
+      .run({ age: 80, state: 'NY' })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ age: 69, country: "USA" })
+      .run({ age: 69, country: 'USA' })
       .then(res => expect(res).toEqual([EVENT])),
   ]);
 });
 
-test("multi field NOT", () => {
-  let rules = [
+test('multi field NOT', () => {
+  const rules = [
     {
       conditions: {
         not: {
           or: [
             {
               age: { less: 70 },
-              country: { is: "USA" },
+              country: { is: 'USA' },
             },
             {
-              state: { is: "NY" },
+              state: { is: 'NY' },
             },
           ],
         },
@@ -278,86 +278,86 @@ test("multi field NOT", () => {
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(5);
 
   return Promise.all([
     engine
-      .run({ age: 16, country: "China", state: "Beijing" })
+      .run({ age: 16, country: 'China', state: 'Beijing' })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ age: 16, country: "China", state: "NY" })
+      .run({ age: 16, country: 'China', state: 'NY' })
       .then(res => expect(res).toEqual([])),
     engine
-      .run({ age: 16, country: "USA" })
+      .run({ age: 16, country: 'USA' })
       .then(res => expect(res).toEqual([])),
-    engine.run({ age: 80, state: "NY" }).then(res => expect(res).toEqual([])),
+    engine.run({ age: 80, state: 'NY' }).then(res => expect(res).toEqual([])),
     engine
-      .run({ age: 69, country: "USA" })
+      .run({ age: 69, country: 'USA' })
       .then(res => expect(res).toEqual([])),
   ]);
 });
 
-test("Nested object queries", () => {
-  let rules = [
+test('Nested object queries', () => {
+  const rules = [
     {
       conditions: {
-        "work.name": { is: "congressman" },
+        'work.name': { is: 'congressman' },
       },
       event: EVENT,
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(5);
 
   return Promise.all([
     engine.run({ work: {} }).then(res => expect(res).toEqual([])),
     engine.run({}).then(res => expect(res).toEqual([])),
     engine
-      .run({ work: { name: "congressman" } })
+      .run({ work: { name: 'congressman' } })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ work: { name: "president" } })
+      .run({ work: { name: 'president' } })
       .then(res => expect(res).toEqual([])),
     engine
-      .run({ work: { name: "blacksmith" } })
+      .run({ work: { name: 'blacksmith' } })
       .then(res => expect(res).toEqual([])),
   ]);
 });
 
-test("Nested arrays object queries", () => {
-  let rules = [
+test('Nested arrays object queries', () => {
+  const rules = [
     {
       conditions: {
         hobbies: {
-          name: { is: "baseball" },
+          name: { is: 'baseball' },
         },
       },
       event: EVENT,
     },
   ];
 
-  let engine = new Engine(rules, schema);
+  const engine = new Engine(rules, schema);
   expect.assertions(5);
 
   return Promise.all([
     engine.run({ hobbies: [] }).then(res => expect(res).toEqual([])),
     engine.run({}).then(res => expect(res).toEqual([])),
     engine
-      .run({ hobbies: [{ name: "baseball" }] })
+      .run({ hobbies: [{ name: 'baseball' }] })
       .then(res => expect(res).toEqual([EVENT])),
     engine
       .run({
         hobbies: [
-          { name: "reading" },
-          { name: "jumping" },
-          { name: "baseball" },
+          { name: 'reading' },
+          { name: 'jumping' },
+          { name: 'baseball' },
         ],
       })
       .then(res => expect(res).toEqual([EVENT])),
     engine
-      .run({ hobbies: [{ name: "reading" }, { name: "jumping" }] })
+      .run({ hobbies: [{ name: 'reading' }, { name: 'jumping' }] })
       .then(res => expect(res).toEqual([])),
   ]);
 });

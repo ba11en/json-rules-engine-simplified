@@ -1,17 +1,17 @@
-import applicableActions from "../src/applicableActions";
+import applicableActions from '../src/applicableActions';
 
 const ACTION = {
-  type: "remove",
-  params: { fields: ["password"] },
+  type: 'remove',
+  params: { fields: ['password'] },
 };
 
 const NO_ACTION = [];
 
-test("OR works", () => {
-  let orRules = [
+test('OR works', () => {
+  const orRules = [
     {
       conditions: {
-        or: [{ firstName: "empty" }, { nickName: { is: "admin" } }],
+        or: [{ firstName: 'empty' }, { nickName: { is: 'admin' } }],
       },
       event: ACTION,
     },
@@ -19,20 +19,20 @@ test("OR works", () => {
 
   expect(applicableActions(orRules, {})).toEqual([ACTION]);
   expect(
-    applicableActions(orRules, { firstName: "Steve", nickName: "admin" })
+    applicableActions(orRules, { firstName: 'Steve', nickName: 'admin' })
   ).toEqual([ACTION]);
-  expect(applicableActions(orRules, { firstName: "some" })).toEqual(NO_ACTION);
+  expect(applicableActions(orRules, { firstName: 'some' })).toEqual(NO_ACTION);
   expect(
-    applicableActions(orRules, { firstName: "Steve", nickName: "Wonder" })
+    applicableActions(orRules, { firstName: 'Steve', nickName: 'Wonder' })
   ).toEqual(NO_ACTION);
 });
 
-test("AND works", () => {
-  let andRules = [
+test('AND works', () => {
+  const andRules = [
     {
       conditions: {
         and: [
-          { or: [{ firstName: "empty" }, { nickName: { is: "admin" } }] },
+          { or: [{ firstName: 'empty' }, { nickName: { is: 'admin' } }] },
           { age: { is: 21 } },
         ],
       },
@@ -42,17 +42,17 @@ test("AND works", () => {
 
   expect(applicableActions(andRules, {})).toEqual(NO_ACTION);
   expect(applicableActions(andRules, { age: 21 })).toEqual([ACTION]);
-  expect(applicableActions(andRules, { firstName: "some" })).toEqual(NO_ACTION);
+  expect(applicableActions(andRules, { firstName: 'some' })).toEqual(NO_ACTION);
   expect(
-    applicableActions(andRules, { firstName: "Steve", nickName: "Wonder" })
+    applicableActions(andRules, { firstName: 'Steve', nickName: 'Wonder' })
   ).toEqual(NO_ACTION);
   expect(
-    applicableActions(andRules, { firstName: "Steve", nickName: "admin" })
+    applicableActions(andRules, { firstName: 'Steve', nickName: 'admin' })
   ).toEqual(NO_ACTION);
   expect(
     applicableActions(andRules, {
-      firstName: "Steve",
-      nickName: "admin",
+      firstName: 'Steve',
+      nickName: 'admin',
       age: 21,
     })
   ).toEqual([ACTION]);

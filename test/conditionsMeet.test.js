@@ -1,33 +1,33 @@
-import conditionsMeet from "../src/conditionsMeet";
-import { testInProd } from "./utils";
+import conditionsMeet from '../src/conditionsMeet';
+import { testInProd } from './utils';
 
-test("sanity checkField", function() {
-  expect(() => conditionsMeet("empty", {})).toThrow();
+test('sanity checkField', function () {
+  expect(() => conditionsMeet('empty', {})).toThrow();
   expect(() => conditionsMeet({}, 0)).toThrow();
 });
 
-test("run predicate against array and elements", () => {
-  let condition = {
-    options: "empty",
+test('run predicate against array and elements', () => {
+  const condition = {
+    options: 'empty',
   };
-  expect(conditionsMeet(condition, [""])).toBeTruthy();
+  expect(conditionsMeet(condition, [''])).toBeTruthy();
   expect(conditionsMeet(condition, [])).toBeTruthy();
 });
 
-test("handles array of non-objects", () => {
-  let condition = {
+test('handles array of non-objects', () => {
+  const condition = {
     options: {
-      contains: "foo",
+      contains: 'foo',
     },
   };
-  expect(conditionsMeet(condition, { options: ["bar"] })).toBeFalsy();
+  expect(conditionsMeet(condition, { options: ['bar'] })).toBeFalsy();
   expect(conditionsMeet(condition, { options: [] })).toBeFalsy();
-  expect(conditionsMeet(condition, { options: ["foo", "bar"] })).toBeTruthy();
+  expect(conditionsMeet(condition, { options: ['foo', 'bar'] })).toBeTruthy();
 });
 
 // throws error
-test("handles array of numbers", () => {
-  let condition = {
+test('handles array of numbers', () => {
+  const condition = {
     options: {
       contains: 2,
     },
@@ -37,50 +37,50 @@ test("handles array of numbers", () => {
   expect(conditionsMeet(condition, { options: [] })).toBeFalsy();
 });
 
-test("single line", () => {
-  let condition = {
-    firstName: "empty",
+test('single line', () => {
+  const condition = {
+    firstName: 'empty',
   };
   expect(conditionsMeet(condition, {})).toBeTruthy();
-  expect(conditionsMeet(condition, { firstName: "some" })).toBeFalsy();
-  expect(conditionsMeet(condition, { firstName: "" })).toBeTruthy();
+  expect(conditionsMeet(condition, { firstName: 'some' })).toBeFalsy();
+  expect(conditionsMeet(condition, { firstName: '' })).toBeTruthy();
   expect(conditionsMeet(condition, { firstName: undefined })).toBeTruthy();
 });
 
-test("default use and", () => {
-  let condition = {
+test('default use and', () => {
+  const condition = {
     firstName: {
-      equal: "Will",
+      equal: 'Will',
     },
     lastName: {
-      equal: "Smith",
+      equal: 'Smith',
     },
   };
-  expect(conditionsMeet(condition, { firstName: "Will" })).toBeFalsy();
-  expect(conditionsMeet(condition, { lastName: "Smith" })).toBeFalsy();
+  expect(conditionsMeet(condition, { firstName: 'Will' })).toBeFalsy();
+  expect(conditionsMeet(condition, { lastName: 'Smith' })).toBeFalsy();
   expect(
-    conditionsMeet(condition, { firstName: "Will", lastName: "Smith" })
+    conditionsMeet(condition, { firstName: 'Will', lastName: 'Smith' })
   ).toBeTruthy();
 });
 
-test("NOT condition", () => {
-  let condition = {
+test('NOT condition', () => {
+  const condition = {
     not: {
       firstName: {
-        equal: "Will",
+        equal: 'Will',
       },
     },
   };
-  expect(conditionsMeet(condition, { firstName: "Will" })).toBeFalsy();
-  expect(conditionsMeet(condition, { firstName: "Smith" })).toBeTruthy();
+  expect(conditionsMeet(condition, { firstName: 'Will' })).toBeFalsy();
+  expect(conditionsMeet(condition, { firstName: 'Smith' })).toBeTruthy();
   expect(
-    conditionsMeet(condition, { firstName: "Will", lastName: "Smith" })
+    conditionsMeet(condition, { firstName: 'Will', lastName: 'Smith' })
   ).toBeFalsy();
 });
 
-test("invalid condition", () => {
-  expect(() => conditionsMeet("empty", {})).toThrow();
-  expect(() => conditionsMeet({}, "empty")).toThrow();
-  expect(testInProd(() => conditionsMeet("empty", {}))).toBeFalsy();
-  expect(testInProd(() => conditionsMeet({}, "empty"))).toBeFalsy();
+test('invalid condition', () => {
+  expect(() => conditionsMeet('empty', {})).toThrow();
+  expect(() => conditionsMeet({}, 'empty')).toThrow();
+  expect(testInProd(() => conditionsMeet('empty', {}))).toBeFalsy();
+  expect(testInProd(() => conditionsMeet({}, 'empty'))).toBeFalsy();
 });

@@ -7,87 +7,87 @@ import {
   predicatesFromRule,
   validatePredicates,
   validateConditionFields,
-} from "../src/validation";
-import { testInProd } from "./utils";
+} from '../src/validation';
+import { testInProd } from './utils';
 
-function conditionsFrom(rules) {
+function conditionsFrom (rules) {
   return rules.map(({ conditions }) => conditions);
 }
 
-let defSchema = {
+const defSchema = {
   properties: {
-    firstName: { type: "string" },
-    password: { type: "string" },
-    age: { type: "integer" },
+    firstName: { type: 'string' },
+    password: { type: 'string' },
+    age: { type: 'integer' },
   },
 };
 
-test("Check predicates", () => {
+test('Check predicates', () => {
   const conditions = conditionsFrom([
-    { conditions: { firstName: "epty" } },
+    { conditions: { firstName: 'epty' } },
     { conditions: { age: { greater: 10 } } },
     { conditions: { age: { less: 20 } } },
   ]);
 
   expect(listAllPredicates(conditions, defSchema)).toEqual([
-    "epty",
-    "greater",
-    "less",
+    'epty',
+    'greater',
+    'less',
   ]);
-  expect(listInvalidPredicates(conditions, defSchema)).toEqual(["epty"]);
+  expect(listInvalidPredicates(conditions, defSchema)).toEqual(['epty']);
 });
 
-test("Two field rule ", () => {
+test('Two field rule', () => {
   const conditions = conditionsFrom([
     {
-      conditions: { firstName: "empty" },
-      event: { type: "remove" },
+      conditions: { firstName: 'empty' },
+      event: { type: 'remove' },
     },
     {
       conditions: { age: { greater: 10 } },
-      event: { type: "require" },
+      event: { type: 'require' },
     },
     {
       conditions: { age: { less: 20 } },
-      event: { type: "hide" },
+      event: { type: 'hide' },
     },
   ]);
 
-  let predicates = listAllPredicates(conditions, defSchema);
-  expect(predicates).toEqual(["empty", "greater", "less"]);
+  const predicates = listAllPredicates(conditions, defSchema);
+  expect(predicates).toEqual(['empty', 'greater', 'less']);
 
-  let fields = listAllFields(conditions);
-  expect(fields).toEqual(["firstName", "age"]);
+  const fields = listAllFields(conditions);
+  expect(fields).toEqual(['firstName', 'age']);
 });
 
-test("3 field rule ", () => {
+test('3 field rule', () => {
   const conditions = conditionsFrom([
     {
-      conditions: { firstName: "empty" },
-      event: { type: "remove" },
+      conditions: { firstName: 'empty' },
+      event: { type: 'remove' },
     },
     {
       conditions: { age: { greater: 10 } },
-      event: { type: "require" },
+      event: { type: 'require' },
     },
     { conditions: { age: { less: 20 } } },
     {
-      conditions: { firstName: "empty" },
-      event: { type: "hide" },
+      conditions: { firstName: 'empty' },
+      event: { type: 'hide' },
     },
   ]);
 
-  let predicates = listAllPredicates(conditions, defSchema);
-  expect(predicates).toEqual(["empty", "greater", "less"]);
+  const predicates = listAllPredicates(conditions, defSchema);
+  expect(predicates).toEqual(['empty', 'greater', 'less']);
 
-  let fields = listAllFields(conditions);
-  expect(fields).toEqual(["firstName", "age"]);
+  const fields = listAllFields(conditions);
+  expect(fields).toEqual(['firstName', 'age']);
 });
 
-test("invalidate predicates", () => {
-  let invalidConditions = conditionsFrom([
+test('invalidate predicates', () => {
+  const invalidConditions = conditionsFrom([
     {
-      event: { type: "remove" },
+      event: { type: 'remove' },
       conditions: {
         age: {
           wtf: {
@@ -100,62 +100,62 @@ test("invalidate predicates", () => {
   ]);
 
   expect(listAllPredicates(invalidConditions, defSchema)).toEqual([
-    "greater",
-    "less",
-    "wtf",
+    'greater',
+    'less',
+    'wtf',
   ]);
-  expect(listInvalidPredicates(invalidConditions, defSchema)).toEqual(["wtf"]);
+  expect(listInvalidPredicates(invalidConditions, defSchema)).toEqual(['wtf']);
   expect(() => validatePredicates(invalidConditions, defSchema)).toThrow();
   expect(() =>
     testInProd(validatePredicates(invalidConditions, defSchema))
   ).not.toBeUndefined();
 });
 
-test("invalid field", () => {
-  let invalidFieldConditions = conditionsFrom([
+test('invalid field', () => {
+  const invalidFieldConditions = conditionsFrom([
     {
-      conditions: { lastName: "empty" },
+      conditions: { lastName: 'empty' },
       event: {
-        type: "remove",
+        type: 'remove',
       },
     },
     {
       conditions: {
-        or: [{ lastName: "empty" }, { firstName: "empty" }],
-        and: [{ otherName: "empty" }],
+        or: [{ lastName: 'empty' }, { firstName: 'empty' }],
+        and: [{ otherName: 'empty' }],
       },
     },
   ]);
 
   expect(listAllFields(invalidFieldConditions)).toEqual([
-    "lastName",
-    "firstName",
-    "otherName",
+    'lastName',
+    'firstName',
+    'otherName',
   ]);
   expect(listInvalidFields(invalidFieldConditions, defSchema)).toEqual([
-    "lastName",
-    "otherName",
+    'lastName',
+    'otherName',
   ]);
   expect(() =>
     validateConditionFields(invalidFieldConditions, defSchema)
   ).toThrow();
 });
 
-test("invalid OR", () => {
-  let invalidOrConditions = conditionsFrom([
+test('invalid OR', () => {
+  const invalidOrConditions = conditionsFrom([
     {
       conditions: {
-        or: { firstName: "empty" },
+        or: { firstName: 'empty' },
       },
-      event: { type: "remove" },
+      event: { type: 'remove' },
     },
   ]);
 
   expect(() => validatePredicates(invalidOrConditions, defSchema)).toThrow();
 });
 
-test("invalid field or", () => {
-  let invalidFieldOr = conditionsFrom([
+test('invalid field or', () => {
+  const invalidFieldOr = conditionsFrom([
     {
       conditions: {
         firstName: {
@@ -165,7 +165,7 @@ test("invalid field or", () => {
           },
         },
       },
-      event: { type: "remove" },
+      event: { type: 'remove' },
     },
   ]);
 
@@ -176,42 +176,42 @@ test("invalid field or", () => {
   expect(() => validatePredicates(invalidFieldOr, defSchema)).toThrow();
 });
 
-test("invalid field NOT or", () => {
-  let invalidFieldNotWithOr = conditionsFrom([
+test('invalid field NOT or', () => {
+  const invalidFieldNotWithOr = conditionsFrom([
     {
       conditions: {
         not: {
-          firstName: "or",
+          firstName: 'or',
         },
       },
-      event: { type: "remove" },
+      event: { type: 'remove' },
     },
   ]);
 
   expect(listInvalidPredicates(invalidFieldNotWithOr, defSchema)).toEqual([
-    "or",
+    'or',
   ]);
   expect(() => validatePredicates(invalidFieldNotWithOr, defSchema)).toThrow();
 });
 
-test("invalid fields 1", () => {
-  let inValidField = conditionsFrom([
+test('invalid fields 1', () => {
+  const inValidField = conditionsFrom([
     {
       conditions: {
-        lastName: "empty",
+        lastName: 'empty',
       },
       event: {
-        type: "remove",
+        type: 'remove',
       },
     },
   ]);
 
-  expect(listAllFields(inValidField)).toEqual(["lastName"]);
+  expect(listAllFields(inValidField)).toEqual(['lastName']);
   expect(() => validateConditionFields(inValidField, defSchema)).toThrow();
 });
 
-test("valid field or", () => {
-  let validFieldOr = conditionsFrom([
+test('valid field or', () => {
+  const validFieldOr = conditionsFrom([
     {
       conditions: {
         firstName: {
@@ -219,34 +219,34 @@ test("valid field or", () => {
         },
       },
       event: {
-        type: "remove",
+        type: 'remove',
       },
     },
   ]);
 
   expect(predicatesFromCondition(validFieldOr[0], defSchema)).toEqual([
-    "is",
-    "is",
+    'is',
+    'is',
   ]);
   expect(validateConditionFields(validFieldOr, defSchema)).toBeUndefined();
 });
 
-test("extract predicates from rule when with or & and", () => {
+test('extract predicates from rule when with or & and', () => {
   expect(predicatesFromRule({ or: [{ is: 1 }, { less: 10 }] })).toEqual([
-    "is",
-    "less",
+    'is',
+    'less',
   ]);
   expect(predicatesFromRule({ and: [{ is: 1 }, { less: 10 }] })).toEqual([
-    "is",
-    "less",
+    'is',
+    'less',
   ]);
 });
 
-test("extract predicates from condition when with or & and", () => {
-  let schema = {
+test('extract predicates from condition when with or & and', () => {
+  const schema = {
     properties: {
-      age: { type: "integer" },
-      grade: { type: "integer" },
+      age: { type: 'integer' },
+      grade: { type: 'integer' },
     },
   };
 
@@ -255,16 +255,16 @@ test("extract predicates from condition when with or & and", () => {
       { or: [{ age: { is: 1 } }, { grade: { less: 10 } }] },
       schema
     )
-  ).toEqual(["is", "less"]);
+  ).toEqual(['is', 'less']);
   expect(
     predicatesFromCondition(
       { and: [{ age: { is: 1 } }, { grade: { less: 10 } }] },
       schema
     )
-  ).toEqual(["is", "less"]);
+  ).toEqual(['is', 'less']);
 });
 
-test("invalid or in rule", () => {
+test('invalid or in rule', () => {
   expect(() => predicatesFromRule({ or: { is: 1 } })).toThrow();
   expect(() => predicatesFromRule({ and: { is: 1 } })).toThrow();
 
@@ -272,7 +272,7 @@ test("invalid or in rule", () => {
   expect(testInProd(() => predicatesFromRule({ and: { is: 1 } }))).toEqual([]);
 });
 
-test("invalid or in condition", () => {
+test('invalid or in condition', () => {
   expect(() => predicatesFromCondition({ or: {} })).toThrow();
   expect(() => predicatesFromCondition({ and: {} })).toThrow();
 

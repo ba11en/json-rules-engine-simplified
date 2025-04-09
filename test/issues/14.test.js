@@ -1,65 +1,65 @@
-import Engine from "../../src";
+import Engine from '../../src';
 
-test("simple relevant rules work", () => {
-  let rules = [
+test('simple relevant rules work', () => {
+  const rules = [
     {
       conditions: {
-        a: { less: "$b" },
+        a: { less: '$b' },
       },
       event: {
-        type: "match",
+        type: 'match',
       },
     },
   ];
-  let engine = new Engine(rules);
+  const engine = new Engine(rules);
   return engine.run({ a: 10, b: 11 }).then(events => {
     expect(events.length).toEqual(1);
-    expect(events[0]).toEqual({ type: "match" });
+    expect(events[0]).toEqual({ type: 'match' });
   });
 });
 
-test("complicated rules work", () => {
-  let rules = [
+test('complicated rules work', () => {
+  const rules = [
     {
       conditions: {
-        a: { or: [{ less: "$b" }] },
+        a: { or: [{ less: '$b' }] },
       },
       event: {
-        type: "match",
+        type: 'match',
       },
     },
   ];
-  let engine = new Engine(rules);
+  const engine = new Engine(rules);
   return engine.run({ a: 10, b: 11 }).then(events => {
     expect(events.length).toEqual(1);
-    expect(events[0]).toEqual({ type: "match" });
+    expect(events[0]).toEqual({ type: 'match' });
   });
 });
 
-test("validation rel fields work", () => {
-  let rules = [
+test('validation rel fields work', () => {
+  const rules = [
     {
       conditions: {
-        a: { less: "$b" },
+        a: { less: '$b' },
       },
-      event: "some",
+      event: 'some',
     },
   ];
 
-  let invSchema = {
-    type: "object",
+  const invSchema = {
+    type: 'object',
     properties: {
-      a: { type: "object" },
+      a: { type: 'object' },
     },
   };
 
   expect(() => new Engine(rules, invSchema)).toThrow();
 
-  let valSchema = {
-    type: "object",
+  const valSchema = {
+    type: 'object',
     properties: {
-      a: { type: "object" },
-      b: { type: "number" },
+      a: { type: 'object' },
+      b: { type: 'number' },
     },
   };
 
