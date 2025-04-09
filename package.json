@@ -1,6 +1,6 @@
 {
   "name": "@ba11en/json-rules-engine-simplified",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Simpl JSON rules engine",
   "private": false,
   "author": "mavarazy@gmail.com",
@@ -8,8 +8,8 @@
     "build:lib": "rimraf lib && cross-env NODE_ENV=production node_modules\\.bin\\babel -d lib/ src/",
     "build:dist": "rimraf dist && cross-env NODE_ENV=production webpack --config webpack.config.dist.js",
     "dist": "yarn lint && yarn cs-format && yarn build:lib && yarn build:dist",
-    "cs-check": "prettier -l $npm_package_prettierOptions '{src,test}/**/*.js'",
-    "cs-format": "prettier $npm_package_prettierOptions '{src,test}/**/*.js' --write",
+    "cs-check": "prettier -l --jsx-bracket-same-line --trailing-comma es5 --semi '{src,test}/**/*.js'",
+    "cs-format": "prettier --jsx-bracket-same-line --trailing-comma es5 --semi '{src,test}/**/*.js' --write",
     "lint": "eslint src test --fix",
     "publish-to-npm": "yarn version --patch && yarn dist && yarn publish --access public",
     "tdd": "jest --watchAll",
