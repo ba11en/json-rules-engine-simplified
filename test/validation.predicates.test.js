@@ -1,17 +1,17 @@
-import predicate from 'predicate';
-import { listInvalidPredicates } from '../src/validation';
+import predicate from "predicate";
+import { listInvalidPredicates } from "../src/validation";
 
 const schema = {
-  type: 'object',
+  type: "object",
   properties: {
-    firstName: { type: 'string' },
+    firstName: { type: "string" },
   },
 };
 
-test('Check predicates', () => {
-  const conditions = [{ firstName: 'somePredicate' }];
+test("Check predicates", () => {
+  const conditions = [{ firstName: "somePredicate" }];
 
-  expect(listInvalidPredicates(conditions, schema)).toEqual(['somePredicate']);
+  expect(listInvalidPredicates(conditions, schema)).toEqual(["somePredicate"]);
 
   predicate.somePredicate = function () {
     return false;

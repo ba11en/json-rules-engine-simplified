@@ -1,5 +1,5 @@
-import Engine from '../src/Engine';
-import { testInProd } from './utils';
+import Engine from "../src/Engine";
+import { testInProd } from "./utils";
 
 const invalidRules = [
   {
@@ -12,9 +12,9 @@ const invalidRules = [
       },
     },
     event: {
-      type: 'remove',
+      type: "remove",
       params: {
-        fields: ['telephone'],
+        fields: ["telephone"],
       },
     },
   },
@@ -22,23 +22,23 @@ const invalidRules = [
 
 const schema = {
   properties: {
-    age: { type: 'number' },
-    telephone: { type: 'string' },
+    age: { type: "number" },
+    telephone: { type: "string" },
   },
 };
 
-test('ignore invalid rules if no schema provided', () => {
+test("ignore invalid rules if no schema provided", () => {
   expect(() => new Engine(invalidRules)).not.toThrow();
 });
 
-test('ignore empty rules with invalid schema', () => {
+test("ignore empty rules with invalid schema", () => {
   expect(() => new Engine(invalidRules, [])).toThrow();
-  expect(() => new Engine(invalidRules, 'schema')).toThrow();
+  expect(() => new Engine(invalidRules, "schema")).toThrow();
 });
 
-test('initialize with invalid rules', () => {
+test("initialize with invalid rules", () => {
   expect(() => new Engine(invalidRules, schema)).toThrow();
   expect(
-    testInProd(() => new Engine(invalidRules, schema))
+    testInProd(() => new Engine(invalidRules, schema)),
   ).not.toBeUndefined();
 });

@@ -1,4 +1,4 @@
-import Engine from '../src/index';
+import Engine from "../src/index";
 
 const rules = [
   {
@@ -9,50 +9,50 @@ const rules = [
       },
     },
     event: {
-      type: 'remove',
-      params: { fields: ['telephone'] },
+      type: "remove",
+      params: { fields: ["telephone"] },
     },
   },
 ];
 
 const schema = {
   properties: {
-    age: { type: 'number' },
-    telephone: { type: 'string' },
+    age: { type: "number" },
+    telephone: { type: "string" },
   },
 };
 
 const engine = new Engine(rules, schema);
 
-test('age greater 5', () => {
+test("age greater 5", () => {
   return engine
     .run({ age: 10 })
-    .then(actions =>
+    .then((actions) =>
       expect(actions).toEqual([
-        { type: 'remove', params: { fields: ['telephone'] } },
-      ])
+        { type: "remove", params: { fields: ["telephone"] } },
+      ]),
     );
 });
 
-test('age less 5', () => {
-  return engine.run({ age: 4 }).then(actions => expect(actions).toEqual([]));
+test("age less 5", () => {
+  return engine.run({ age: 4 }).then((actions) => expect(actions).toEqual([]));
 });
 
-test('age less 70', () => {
+test("age less 70", () => {
   return engine
     .run({ age: 69 })
-    .then(actions =>
+    .then((actions) =>
       expect(actions).toEqual([
-        { type: 'remove', params: { fields: ['telephone'] } },
-      ])
+        { type: "remove", params: { fields: ["telephone"] } },
+      ]),
     );
 });
 
-test('age greater 70', () => {
-  return engine.run({ age: 71 }).then(actions => expect(actions).toEqual([]));
+test("age greater 70", () => {
+  return engine.run({ age: 71 }).then((actions) => expect(actions).toEqual([]));
 });
 
-test('empty engine creation', () => {
+test("empty engine creation", () => {
   expect(new Engine()).not.toBeUndefined();
   expect(new Engine(undefined)).not.toBeUndefined();
   expect(new Engine(null)).not.toBeUndefined();

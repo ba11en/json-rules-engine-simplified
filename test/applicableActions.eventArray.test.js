@@ -1,26 +1,26 @@
-import applicableActions from '../src/applicableActions';
+import applicableActions from "../src/applicableActions";
 
-test('check nested fields work', function () {
+test("check nested fields work", function () {
   const rules = [
     {
-      conditions: { address: 'empty' },
-      event: [{ type: 'remove' }, { type: 'add' }],
+      conditions: { address: "empty" },
+      event: [{ type: "remove" }, { type: "add" }],
     },
   ];
   expect(applicableActions(rules, {})).toEqual([
-    { type: 'remove' },
-    { type: 'add' },
+    { type: "remove" },
+    { type: "add" },
   ]);
-  expect(applicableActions(rules, { address: { line: 'some' } })).toEqual([]);
+  expect(applicableActions(rules, { address: { line: "some" } })).toEqual([]);
 });
 
-test('check fields of different types', function () {
+test("check fields of different types", function () {
   const rules = [
     {
-      conditions: { address: 'empty' },
-      event: ['remove', 1],
+      conditions: { address: "empty" },
+      event: ["remove", 1],
     },
   ];
-  expect(applicableActions(rules, {})).toEqual(['remove', 1]);
-  expect(applicableActions(rules, { address: { line: 'some' } })).toEqual([]);
+  expect(applicableActions(rules, {})).toEqual(["remove", 1]);
+  expect(applicableActions(rules, { address: { line: "some" } })).toEqual([]);
 });
