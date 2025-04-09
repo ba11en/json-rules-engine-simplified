@@ -1,4 +1,3 @@
-import predicate from "predicate";
 import {
   flatMap,
   isObject,
@@ -29,7 +28,7 @@ export function predicatesFromRule(rule, schema) {
         if (p === OR || p === AND) {
           if (Array.isArray(comparable)) {
             return flatMap(comparable, (condition) =>
-              predicatesFromRule(condition, schema),
+              predicatesFromRule(condition, schema)
             );
           } else {
             toError(`"${p}" must be an array`);
@@ -89,20 +88,24 @@ export function predicatesFromCondition(condition, schema) {
 
 export function listAllPredicates(conditions, schema) {
   const allPredicates = flatMap(conditions, (condition) =>
-    predicatesFromCondition(condition, schema),
+    predicatesFromCondition(condition, schema)
   );
   return allPredicates.filter((v, i, a) => allPredicates.indexOf(v) === i);
 }
 
-export function listInvalidPredicates(conditions, schema) {
+export function listInvalidPredicates(conditions, schema, predicate) {
   const refPredicates = listAllPredicates(conditions, schema);
   return refPredicates.filter(
-    (p) => UNSUPPORTED_PREDICATES.includes(p) || predicate[p] === undefined,
+    (p) => UNSUPPORTED_PREDICATES.includes(p) || predicate[p] === undefined
   );
 }
 
-export function validatePredicates(conditions, schema) {
-  const invalidPredicates = listInvalidPredicates(conditions, schema);
+export function validatePredicates(conditions, schema, predicate) {
+  const invalidPredicates = listInvalidPredicates(
+    conditions,
+    schema,
+    predicate
+  );
   if (invalidPredicates.length !== 0) {
     toError(`Rule contains invalid predicates ${invalidPredicates}`);
   }
