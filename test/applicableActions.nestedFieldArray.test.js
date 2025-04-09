@@ -221,7 +221,7 @@ test("check nested complex array work", function () {
     ],
   };
   expect(
-    applicableActions(rulesComplexNestedArray, factsArrayComplexNestedArray),
+    applicableActions(rulesComplexNestedArray, factsArrayComplexNestedArray)
   ).toEqual([DISPLAY_MESSAGE_COMPLEX_NESTED_ARRAY]);
 
   factsArrayComplexNestedArray = {
@@ -251,6 +251,6 @@ test("check nested complex array work", function () {
     ],
   };
   expect(
-    applicableActions(rulesComplexNestedArray, factsArrayComplexNestedArray),
+    applicableActions(rulesComplexNestedArray, factsArrayComplexNestedArray)
   ).toEqual([]);
 });

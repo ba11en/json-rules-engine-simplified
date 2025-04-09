@@ -39,6 +39,6 @@ test("ignore empty rules with invalid schema", () => {
 test("initialize with invalid rules", () => {
   expect(() => new Engine(invalidRules, schema)).toThrow();
   expect(
-    testInProd(() => new Engine(invalidRules, schema)),
+    testInProd(() => new Engine(invalidRules, schema))
   ).not.toBeUndefined();
 });

@@ -30,7 +30,7 @@ test("age greater 5", () => {
     .then((actions) =>
       expect(actions).toEqual([
         { type: "remove", params: { fields: ["telephone"] } },
-      ]),
+      ])
     );
 });
 
@@ -44,7 +44,7 @@ test("age less 70", () => {
     .then((actions) =>
       expect(actions).toEqual([
         { type: "remove", params: { fields: ["telephone"] } },
-      ]),
+      ])
     );
 });
 

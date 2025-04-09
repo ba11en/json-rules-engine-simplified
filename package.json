@@ -11,7 +11,7 @@
     "cs-check": "prettier -l --jsx-bracket-same-line --trailing-comma es5 --semi '{src,test}/**/*.js'",
     "cs-format": "prettier --jsx-bracket-same-line --trailing-comma es5 --semi '{src,test}/**/*.js' --write",
     "lint": "eslint src test --fix",
-    "publish-to-npm": "yarn version --patch && yarn dist && yarn publish --access public",
+    "publish-to-npm": "yarn version --patch --no-git-tag-version && yarn dist && yarn publish --access public --no-git-tag-version",
     "tdd": "jest --watchAll",
     "test": "jest --coverage"
   },

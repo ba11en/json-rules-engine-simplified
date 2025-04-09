@@ -107,7 +107,7 @@ test("invalidate predicates", () => {
   expect(listInvalidPredicates(invalidConditions, defSchema)).toEqual(["wtf"]);
   expect(() => validatePredicates(invalidConditions, defSchema)).toThrow();
   expect(() =>
-    testInProd(validatePredicates(invalidConditions, defSchema)),
+    testInProd(validatePredicates(invalidConditions, defSchema))
   ).not.toBeUndefined();
 });
 
@@ -137,7 +137,7 @@ test("invalid field", () => {
     "otherName",
   ]);
   expect(() =>
-    validateConditionFields(invalidFieldConditions, defSchema),
+    validateConditionFields(invalidFieldConditions, defSchema)
   ).toThrow();
 });
 
@@ -171,7 +171,7 @@ test("invalid field or", () => {
 
   expect(() => predicatesFromRule(invalidFieldOr[0].firstName)).toThrow();
   expect(
-    testInProd(() => predicatesFromRule(invalidFieldOr[0].firstName)),
+    testInProd(() => predicatesFromRule(invalidFieldOr[0].firstName))
   ).toEqual([]);
   expect(() => validatePredicates(invalidFieldOr, defSchema)).toThrow();
 });
@@ -253,14 +253,14 @@ test("extract predicates from condition when with or & and", () => {
   expect(
     predicatesFromCondition(
       { or: [{ age: { is: 1 } }, { grade: { less: 10 } }] },
-      schema,
-    ),
+      schema
+    )
   ).toEqual(["is", "less"]);
   expect(
     predicatesFromCondition(
       { and: [{ age: { is: 1 } }, { grade: { less: 10 } }] },
-      schema,
-    ),
+      schema
+    )
   ).toEqual(["is", "less"]);
 });
 

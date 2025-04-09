@@ -1,6 +1,7 @@
 import { isObject, toError, selectRef } from "./utils";
 import checkField from "./checkField";
 import { OR, AND, NOT } from "./constants";
+import defaultPredicate from "predicate"; // Import defaultPredicate
 
 export function toRelCondition(refCondition, formData) {
   if (Array.isArray(refCondition)) {
@@ -17,7 +18,14 @@ export function toRelCondition(refCondition, formData) {
   }
 }
 
-export default function conditionsMeet(condition, formData, predicate) {
+export default function conditionsMeet(
+  condition,
+  formData,
+  predicate = defaultPredicate
+) {
+  if (!predicate) {
+    predicate = defaultPredicate;
+  }
   if (!isObject(condition) || !isObject(formData)) {
     toError(
       `Rule ${JSON.stringify(condition)} with ${formData} can't be processed`
@@ -39,10 +47,21 @@ export default function conditionsMeet(condition, formData, predicate) {
     } else {
       const refVal = selectRef(ref, formData);
       if (Array.isArray(refVal)) {
-        const condMeatOnce = refVal.some((val) =>
-          isObject(val) ? conditionsMeet(refCondition, val, predicate) : false
-        );
-        // It's either true for an element in an array or for the whole array
+        const condMeatOnce = refVal.some((val) => {
+          if (isObject(val)) {
+            // Only evaluate as a condition if val contains known predicate keys
+            const valKeys = Object.keys(val);
+            const hasPredicateKeys = valKeys.some(
+              (key) =>
+                key === OR || key === AND || key === NOT || predicate[key]
+            );
+            if (hasPredicateKeys) {
+              return conditionsMeet(refCondition, val, predicate);
+            }
+            return false;
+          }
+          return false;
+        });
         return (
           condMeatOnce ||
           checkField(refVal, toRelCondition(refCondition, formData), predicate)

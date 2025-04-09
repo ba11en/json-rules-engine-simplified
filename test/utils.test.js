@@ -84,12 +84,12 @@ test("extract referenced schema", () => {
 
   expect(() => extractRefSchema("externalConfig", schema)).toThrow();
   expect(
-    testInProd(() => extractRefSchema("externalConfig", schema)),
+    testInProd(() => extractRefSchema("externalConfig", schema))
   ).toBeUndefined();
 
   expect(() => extractRefSchema("lastName", schema)).toThrow();
   expect(
-    testInProd(() => extractRefSchema("lastName", schema)),
+    testInProd(() => extractRefSchema("lastName", schema))
   ).toBeUndefined();
 });
 

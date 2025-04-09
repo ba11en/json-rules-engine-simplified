@@ -19,11 +19,11 @@ test("OR works", () => {
 
   expect(applicableActions(orRules, {})).toEqual([ACTION]);
   expect(
-    applicableActions(orRules, { firstName: "Steve", nickName: "admin" }),
+    applicableActions(orRules, { firstName: "Steve", nickName: "admin" })
   ).toEqual([ACTION]);
   expect(applicableActions(orRules, { firstName: "some" })).toEqual(NO_ACTION);
   expect(
-    applicableActions(orRules, { firstName: "Steve", nickName: "Wonder" }),
+    applicableActions(orRules, { firstName: "Steve", nickName: "Wonder" })
   ).toEqual(NO_ACTION);
 });
 
@@ -44,16 +44,16 @@ test("AND works", () => {
   expect(applicableActions(andRules, { age: 21 })).toEqual([ACTION]);
   expect(applicableActions(andRules, { firstName: "some" })).toEqual(NO_ACTION);
   expect(
-    applicableActions(andRules, { firstName: "Steve", nickName: "Wonder" }),
+    applicableActions(andRules, { firstName: "Steve", nickName: "Wonder" })
   ).toEqual(NO_ACTION);
   expect(
-    applicableActions(andRules, { firstName: "Steve", nickName: "admin" }),
+    applicableActions(andRules, { firstName: "Steve", nickName: "admin" })
   ).toEqual(NO_ACTION);
   expect(
     applicableActions(andRules, {
       firstName: "Steve",
       nickName: "admin",
       age: 21,
-    }),
+    })
   ).toEqual([ACTION]);
 });

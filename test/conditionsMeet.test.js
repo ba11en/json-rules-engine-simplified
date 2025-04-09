@@ -59,7 +59,7 @@ test("default use and", () => {
   expect(conditionsMeet(condition, { firstName: "Will" })).toBeFalsy();
   expect(conditionsMeet(condition, { lastName: "Smith" })).toBeFalsy();
   expect(
-    conditionsMeet(condition, { firstName: "Will", lastName: "Smith" }),
+    conditionsMeet(condition, { firstName: "Will", lastName: "Smith" })
   ).toBeTruthy();
 });
 
@@ -74,7 +74,7 @@ test("NOT condition", () => {
   expect(conditionsMeet(condition, { firstName: "Will" })).toBeFalsy();
   expect(conditionsMeet(condition, { firstName: "Smith" })).toBeTruthy();
   expect(
-    conditionsMeet(condition, { firstName: "Will", lastName: "Smith" }),
+    conditionsMeet(condition, { firstName: "Will", lastName: "Smith" })
   ).toBeFalsy();
 });
 

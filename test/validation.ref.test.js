@@ -41,40 +41,40 @@ const schema = {
 
 test("condition with external ref", () => {
   expect(() =>
-    predicatesFromCondition({ "externalConfig.name": "empty" }, schema),
+    predicatesFromCondition({ "externalConfig.name": "empty" }, schema)
   ).toThrow();
   expect(
     testInProd(() =>
-      predicatesFromCondition({ "externalConfig.name": "empty" }, schema),
-    ),
+      predicatesFromCondition({ "externalConfig.name": "empty" }, schema)
+    )
   ).toEqual([]);
 });
 
 test("array condition with external ref", () => {
   expect(() =>
-    predicatesFromCondition({ "invalidArrayRef.name": "empty" }, schema),
+    predicatesFromCondition({ "invalidArrayRef.name": "empty" }, schema)
   ).toThrow();
   expect(
     testInProd(() =>
-      predicatesFromCondition({ "invalidArrayRef.name": "empty" }, schema),
-    ),
+      predicatesFromCondition({ "invalidArrayRef.name": "empty" }, schema)
+    )
   ).toEqual([]);
 });
 
 test("condition with fake ref field", () => {
   expect(() =>
-    predicatesFromCondition({ "fakeRef.name": "empty" }, schema),
+    predicatesFromCondition({ "fakeRef.name": "empty" }, schema)
   ).toThrow();
   expect(
     testInProd(() =>
-      predicatesFromCondition({ "fakeRef.name": "empty" }, schema),
-    ),
+      predicatesFromCondition({ "fakeRef.name": "empty" }, schema)
+    )
   ).toEqual([]);
 });
 
 test("condition with fake field", () => {
   expect(() => predicatesFromCondition({ fakeRef: "empty" }, schema)).toThrow();
   expect(
-    testInProd(() => predicatesFromCondition({ fakeRef: "empty" }, schema)),
+    testInProd(() => predicatesFromCondition({ fakeRef: "empty" }, schema))
   ).toEqual([]);
 });

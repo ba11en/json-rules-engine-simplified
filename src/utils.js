@@ -50,7 +50,7 @@ function fetchSchema(ref, schema) {
       .reduce((schema, field) => schema[field], schema);
   } else {
     toError(
-      "Only local references supported at this point use json-schema-deref",
+      "Only local references supported at this point use json-schema-deref"
     );
     return undefined;
   }

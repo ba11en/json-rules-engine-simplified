@@ -1,8 +1,11 @@
 import { isObject } from "./utils";
 import { AND, NOT, OR } from "./constants";
-import selectn from "selectn";
+import defaultPredicate from "predicate"; // Fallback
 
-const doCheckField = (fieldVal, rule, predicate) => {
+const doCheckField = (fieldVal, rule, predicate = defaultPredicate) => {
+  if (!predicate) {
+    predicate = defaultPredicate;
+  }
   if (isObject(rule)) {
     return Object.keys(rule).every((p) => {
       const subRule = rule[p];
@@ -25,20 +28,17 @@ const doCheckField = (fieldVal, rule, predicate) => {
       } else if (predicate[p]) {
         return predicate[p](fieldVal, subRule);
       } else {
-        console.error(`Predicate '${p}' not found`);
         return false;
       }
     });
   } else {
     if (!predicate[rule]) {
-      console.error(`Predicate '${rule}' not found`);
       return false;
     }
     return predicate[rule](fieldVal);
   }
 };
 
-export default function checkField(field, rule, formData, predicate) {
-  const fieldVal = selectn(field)(formData);
+export default function checkField(fieldVal, rule, predicate) {
   return doCheckField(fieldVal, rule, predicate);
 }

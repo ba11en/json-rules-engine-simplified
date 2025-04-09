@@ -55,8 +55,8 @@ test("list all predicates", () => {
   expect(
     listAllPredicates(
       rules.map((r) => r.conditions),
-      schema,
-    ),
+      schema
+    )
   ).toEqual(["is", "equal"]);
 });
 

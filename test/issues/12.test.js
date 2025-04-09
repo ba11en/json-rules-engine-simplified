@@ -41,7 +41,7 @@ test("invalidates ref object", () => {
       conditions: {
         "homeAddress.home": { is: "true" },
       },
-    }),
+    })
   ).toThrow();
 });
 
@@ -51,7 +51,7 @@ test("invalidates embedded object", () => {
       conditions: {
         "workAddress.home": { is: "true" },
       },
-    }),
+    })
   ).toThrow();
 });
 
@@ -61,7 +61,7 @@ test("invalidates array object", () => {
       conditions: {
         "favFoodLocations.home": { is: "true" },
       },
-    }),
+    })
   ).toThrow();
 });
 
@@ -71,7 +71,7 @@ test("invalidates array with $ref object", () => {
       conditions: {
         "favoritePlaces.home": { is: "true" },
       },
-    }),
+    })
   ).toThrow();
 });
 
@@ -81,7 +81,7 @@ test("Validates ref object", () => {
       conditions: {
         "homeAddress.zip": { is: "true" },
       },
-    }),
+    })
   ).toBeUndefined();
 });
 
@@ -91,7 +91,7 @@ test("Validates embedded object", () => {
       conditions: {
         "workAddress.zip": { is: "true" },
       },
-    }),
+    })
   ).toBeUndefined();
 });
 
@@ -101,7 +101,7 @@ test("Validates array object", () => {
       conditions: {
         "favFoodLocations.zip": { is: "true" },
       },
-    }),
+    })
   ).toBeUndefined();
 });
 
@@ -111,6 +111,6 @@ test("Validates array with $ref object", () => {
       conditions: {
         "favoritePlaces.zip": { is: "true" },
       },
-    }),
+    })
   ).toBeUndefined();
 });
