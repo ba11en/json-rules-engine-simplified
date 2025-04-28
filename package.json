@@ -1,6 +1,6 @@
 {
   "name": "@ba11en/json-rules-engine-simplified",
-  "version": "0.2.5",
+  "version": "0.2.8",
   "description": "Simpl JSON rules engine",
   "private": false,
   "author": "mavarazy@gmail.com",
@@ -11,7 +11,8 @@
     "cs-check": "prettier -l --jsx-bracket-same-line --trailing-comma es5 --semi '{src,test}/**/*.js'",
     "cs-format": "prettier --jsx-bracket-same-line --trailing-comma es5 --semi '{src,test}/**/*.js' --write",
     "lint": "eslint src test --fix",
-    "publish-to-npm": "yarn version --patch --no-git-tag-version && yarn dist && yarn publish --access public --no-git-tag-version",
+    "publish-to-npm-and-version": "yarn version --patch --no-git-tag-version && yarn dist && yarn publish --access public --no-git-tag-version",
+    "publish-to-npm": "yarn dist && yarn publish --access public --no-git-tag-version",
     "tdd": "jest --watchAll",
     "test": "jest --coverage"
   },
